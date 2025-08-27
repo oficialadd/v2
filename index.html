@@ -8,20 +8,33 @@
     // Lista de números de WhatsApp
     const numeros = [
       "5493625245340",
-      "5493624926646",
+      "5493624926646"
     ];
 
     // Seleccionar uno al azar
     const elegido = numeros[Math.floor(Math.random() * numeros.length)];
 
-    // Mensaje a enviar (codificado para URL)
-    const mensaje = encodeURIComponent("Hola buenas quiero mi ussuarioo y el 30% mi nombre es:");
+    // Generar un código de tracking aleatorio
+    const codigoTracking = Math.floor(10000 + Math.random() * 90000);
+
+    // Mensaje con el código incluido
+    const mensaje = encodeURIComponent(
+      `Hola buenas quiero mi ussuarioo y el 30% mi nombre es: [Código ${codigoTracking}]`
+    );
 
     // URL completa de WhatsApp
     const urlWhatsApp = `https://wa.me/${elegido}?text=${mensaje}`;
 
-    // Redirección inmediata
-    window.location.href = urlWhatsApp;
+    // 📌 Reemplazar con la URL de tu Apps Script Web App
+    const scriptURL = "https://script.google.com/macros/s/AKfycbXXXXXXXXXXX/exec";
+
+    // Armar URL para guardar en Sheets
+    const urlRegistro = `${scriptURL}?codigo=${codigoTracking}&numero=${encodeURIComponent(elegido)}`;
+
+    // Guardar en Sheets y redirigir inmediatamente
+    fetch(urlRegistro)
+      .then(() => window.location.href = urlWhatsApp)
+      .catch(() => window.location.href = urlWhatsApp);
   </script>
 </head>
 <body>
